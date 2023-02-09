@@ -23,7 +23,7 @@ jobs:
       - name: Install Playwright
         run: playwright install
       - name: Install playwright dependencies
-        run: sudo playwright install-deps
+        run: playwright install-deps
       - name: Run Playwright tests
         # yamllint disable-line rule:line-length
         run: pytest --browser webkit --browser firefox --browser chromium --numprocesses auto --template=html1/index.html --report=test-report/report.html
