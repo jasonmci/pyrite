@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main, master]
 jobs:
-  test:
+  linter:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
@@ -20,6 +20,16 @@ jobs:
         run: python -m flake8
       - name: YAML linter
         run: yamllint .
+  test:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.4'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
       - name: Install Playwright
         run: playwright install
       - name: Install playwright dependencies
