@@ -55,3 +55,4 @@ urllib3==1.26.14
 watchdog==2.2.1
 websockets==10.1
 wrapt==1.14.1
+yamllint==1.29.0
