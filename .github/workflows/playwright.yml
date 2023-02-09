@@ -20,7 +20,7 @@ jobs:
           key: ${{ hashFiles('requirements.txt') }}
       - name: Install dependencies
         # yamllint disable-line rule:line-length
-        run: pip install --upgrade --upgrade-strategy eager -r requirements.txt -e .
+        run: pip install -r requirements.txt
       - name: Python linter
         run: python -m flake8
       - name: YAML linter
@@ -39,7 +39,7 @@ jobs:
           key: ${{ hashFiles('requirements.txt') }}
       - name: Install dependencies
         # yamllint disable-line rule:line-length
-        run: pip install --upgrade --upgrade-strategy eager -r requirements.txt -e .
+        run: pip install -r requirements.txt
       - name: Install Playwright
         run: playwright install
       - name: Install playwright dependencies
