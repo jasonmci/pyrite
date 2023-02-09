@@ -19,3 +19,4 @@ def test_homepage_has_Playwright_in_title(page: Page):
 
     # Expects the URL to contain intro.
     expect(page).to_have_url(re.compile(".*intro"))
+
