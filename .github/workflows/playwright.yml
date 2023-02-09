@@ -56,4 +56,4 @@ jobs:
         with:
           name: test-report
           path: test-report
-          retention-days: 30
+          retention-days: 10
