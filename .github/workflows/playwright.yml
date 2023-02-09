@@ -16,8 +16,10 @@ jobs:
           python-version: '3.10.4'
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Linter
+      - name: Python linter
         run: python -m flake8
+      - name: YAML linter
+        run: yamllint .
       - name: Install Playwright
         run: playwright install
       - name: Run Playwright tests
