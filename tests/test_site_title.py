@@ -1,3 +1,4 @@
+import pytest
 import re
 from playwright.sync_api import Page, expect
 
@@ -21,6 +22,7 @@ def test_homepage_has_Playwright_in_title(page: Page):
     expect(page).to_have_url(re.compile(".*intro"))
 
 
+@pytest.mark.xfail
 def test_homepage_failing(page: Page):
     page.goto("https://playwright.dev/")
 
@@ -28,7 +30,7 @@ def test_homepage_failing(page: Page):
     expect(page).to_have_title(re.compile("Playwright"))
 
     # create a locator
-    get_started = page.get_by_role("link", name="Get started")
+    get_started = page.get_by_role("link", name="Get stharted")
 
     # Expect an attribute "to be strictly equal" to the value.
     expect(get_started).to_have_attribute("href", "/docs/intro")
@@ -40,6 +42,7 @@ def test_homepage_failing(page: Page):
     expect(page).to_have_url(re.compile(".*intro"))
 
 
+@pytest.mark.skip
 def test_homepage_has_some_error(page: Page):
     page.goto("https://playwright.dev/")
 
