@@ -22,7 +22,7 @@ jobs:
         run: python -m flake8
       - name: YAML linter
         run: yamllint .
-  test:
+  test-chromium-firefox:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
@@ -46,8 +46,6 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
       - run: playwright install
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-      # - name: Playwright install deps
-      #   run: python -m playwright install-deps
       - name: Run Playwright tests
         # yamllint disable-line rule:line-length
         run: pytest --browser firefox --browser chromium --numprocesses auto --template=html1/index.html --report=test-report/report.html
@@ -56,4 +54,40 @@ jobs:
         with:
           name: test-report
           path: test-report
-          retention-days: 10
+          retention-days: 30
+  test-safari:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.4'
+          cache: 'pip'
+      - name: Install python dependencies
+        # yamllint disable-line rule:line-length
+        run: pip install --upgrade --upgrade-strategy eager -r requirements.txt
+      - name: Get Playwright version
+        # yamllint disable-line rule:line-length
+        run: echo "PLAYWRIGHT_VERSION=$(playwright --version)" | sed 's/ /-/g' >> $GITHUB_ENV
+      - name: Cache Playwright binaries
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+      - run: playwright install
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - name: Install webkit dependencies
+        # caching this will require docker image for webkit
+        run: playwright install-deps
+      - name: Run Playwright tests
+        # yamllint disable-line rule:line-length
+        run: pytest --browser webkit --numprocesses auto --template=html1/index.html --report=test-report/report.html
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-report
+          path: test-report
+          retention-days: 30
