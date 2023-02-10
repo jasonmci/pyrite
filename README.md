@@ -1,6 +1,8 @@
 # pyrite
 Python and Playwright
 
+![example workflow](https://github.com/jasonmci/pyrite/actions/workflows/playwright.yml/badge.svg)
+
 Out of the gate Python is managed with pyenv
 Upgraded playwright to the latest version and installed it
 

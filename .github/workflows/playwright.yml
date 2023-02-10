@@ -48,7 +48,7 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Run Playwright tests
         # yamllint disable-line rule:line-length
-        run: pytest --browser firefox --browser chromium --numprocesses auto --template=html1/index.html --report=test-report/report.html
+        run: pytest --browser firefox --browser chromium --numprocesses auto --template=html1/index.html --report=test-report/report_chromium_firefox.html
       - uses: actions/upload-artifact@v3
         if: always()
         with:
@@ -84,7 +84,7 @@ jobs:
         run: playwright install-deps
       - name: Run Playwright tests
         # yamllint disable-line rule:line-length
-        run: pytest --browser webkit --numprocesses auto --template=html1/index.html --report=test-report/report.html
+        run: pytest --browser webkit --numprocesses auto --template=html1/index.html --report=test-report/report_safari.html
       - uses: actions/upload-artifact@v3
         if: always()
         with:
