@@ -18,6 +18,11 @@ def test_main_navigation(page: Page):
     expect(page).to_have_url("https://playwright.dev/")
 
 
+def test_main_navigation4(page: Page):
+    # Assertions use the expect API.
+    expect(page).to_have_url("https://playwjright.dev/")
+
+
 def test_main_navigation2(page: Page):
     # Assertions use the expect API.
     expect(page).to_have_url("https://playwright.dev/")
@@ -26,3 +31,8 @@ def test_main_navigation2(page: Page):
 def test_main_navigation3(page: Page):
     # Assertions use the expect API.
     expect(page).to_have_url("https://playwright.dev/")
+
+
+def test_main_navigation5(page: Page):
+    # Assertions use the expect API.
+    expect(page).to_have_url("https://playwjright.dev/")

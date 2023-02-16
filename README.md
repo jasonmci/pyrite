@@ -3,11 +3,11 @@ Python and Playwright
 
 ![example workflow](https://github.com/jasonmci/pyrite/actions/workflows/playwright.yml/badge.svg)
 
-Out of the gate Python is managed with pyenv
-Upgraded playwright to the latest version and installed it
-
-## Github actions for this project
-
+## The Daily Routine
+- [ ] Run the following command
+```
+ptw -- --last-failed --new-first
+```
 
 
 ## Pytest watch mode
@@ -22,4 +22,3 @@ ptw -- --last-failed --new-first
 ```
 
 Where the -- separator denotes where pytest-watch args stop and pytest arguments start.
-
