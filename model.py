@@ -1,7 +1,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date
-from typing import Optional, List, Set
+from typing import Optional
 
 
 @dataclass(frozen=True)
@@ -22,3 +22,6 @@ class Batch:
 
     def allocate(self, line: OrderLine):
         self.available_quantity -= line.qty
+
+    def can_allocate(self, line: OrderLine) -> bool:
+        return self.sku == line.sku and self.available_quantity >= line.qty

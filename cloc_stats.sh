@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 nFiles=`cloc ./**/*.py --json | jq -r ".Python.nFiles"`
 blank=`cloc ./**/*.py --json | jq -r ".Python.blank"`
