@@ -1,7 +1,5 @@
 from datetime import date
-
 from model import Batch, OrderLine
-# from model import Batch, OrderLine
 
 
 def test_allocating_to_a_batch_reduces_available_quantity():
