@@ -1,4 +1,4 @@
-# refactor this to only run the cloc command once to json then parse the json
+#!/bin/bash
 
 nFiles=`cloc ./**/*.py --json | jq -r ".Python.nFiles"`
 blank=`cloc ./**/*.py --json | jq -r ".Python.blank"`

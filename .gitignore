@@ -1,2 +1,4 @@
 test-report
 **/__pycache__/
+.vscode
+.vscode/settings.json
