@@ -1,5 +1,5 @@
 import model
-#import repository
+import repository
 
 
 def test_repos_1(session):
