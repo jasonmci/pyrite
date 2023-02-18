@@ -123,8 +123,8 @@ jobs:
         run: |
           pytest --browser chromium --numprocesses auto --stats-d \
           --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com \
-          --stats-port 8125 --stats-prefix chromium --template=html1/index.html
-          --report=test-report/report_chromium.html
+          --stats-port 8125 --stats-prefix chromium \
+          --template=html1/index.html --report=test-report/report_chromium.html
       - uses: actions/upload-artifact@v3
         if: always()
         with:
