@@ -3,3 +3,4 @@ test-report
 .vscode
 .vscode/settings.json
 *.html
+*.json
