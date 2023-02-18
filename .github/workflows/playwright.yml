@@ -19,7 +19,7 @@ jobs:
         run: sudo apt-get install -y cloc
       - name: Get lines of code counter
         run: |
-          chmod 400 cloc_stats.sh
+          chmod +x cloc_stats.sh
           ./cloc_stats.sh
 
   linter:
