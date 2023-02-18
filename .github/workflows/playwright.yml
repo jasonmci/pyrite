@@ -16,7 +16,6 @@ jobs:
           python-version: '3.10.4'
           cache: 'pip'
       - name: Install python dependencies
-        # yamllint disable-line rule:line-length
         run: pip install --upgrade --upgrade-strategy eager -r requirements.txt
       - name: Python linter
         run: python -m flake8
@@ -70,10 +69,8 @@ jobs:
           python-version: '3.10.4'
           cache: 'pip'
       - name: Install python dependencies
-        # yamllint disable-line rule:line-length
         run: pip install --upgrade --upgrade-strategy eager -r requirements.txt
       - name: Get Playwright version
-        # yamllint disable-line rule:line-length
         run: |
           echo "PLAYWRIGHT_VERSION=$(playwright --version)" | sed 's/ /-/g' \
           >> $GITHUB_ENV
@@ -87,7 +84,6 @@ jobs:
       - run: playwright install
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Run Playwright tests
-        # yamllint disable-line rule:line-length
         run: |
           pytest --browser firefox --numprocesses auto --stats-d \
           --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com \
