@@ -50,14 +50,14 @@ jobs:
         run: playwright install msedge
       - name: Run Playwright tests
         # yamllint disable-line rule:line-length
-        run: pytest --browser-channel msedge --numprocesses auto --template=html1/index.html --report=test-report/report_msedge.html
+        run: pytest --browser-channel msedge --numprocesses auto --stats-d --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com --stats-port 8125 --stats-prefix msedge --template=html1/index.html --report=test-report/report_msedge.html
       - uses: actions/upload-artifact@v3
         if: always()
         with:
           name: test-report
           path: test-report
           retention-days: 30
-  test-chromium-firefox:
+  test-firefox:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
@@ -83,7 +83,40 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Run Playwright tests
         # yamllint disable-line rule:line-length
-        run: pytest --browser firefox --browser chromium --numprocesses auto --template=html1/index.html --report=test-report/report_chromium_firefox.html
+        run: pytest --browser firefox --numprocesses auto --stats-d --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com --stats-port 8125 --stats-prefix firefox --template=html1/index.html --report=test-report/report_firefox.html
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-report
+          path: test-report
+          retention-days: 30
+  test-chromium:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.4'
+          cache: 'pip'
+      - name: Install python dependencies
+        # yamllint disable-line rule:line-length
+        run: pip install --upgrade --upgrade-strategy eager -r requirements.txt
+      - name: Get Playwright version
+        # yamllint disable-line rule:line-length
+        run: echo "PLAYWRIGHT_VERSION=$(playwright --version)" | sed 's/ /-/g' >> $GITHUB_ENV
+      - name: Cache Playwright binaries
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+      - run: playwright install
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - name: Run Playwright tests
+        # yamllint disable-line rule:line-length
+        run: pytest --browser chromium --numprocesses auto --stats-d --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com --stats-port 8125 --stats-prefix chromium --template=html1/index.html --report=test-report/report_chromium.html
       - uses: actions/upload-artifact@v3
         if: always()
         with:
@@ -119,7 +152,7 @@ jobs:
         run: playwright install-deps
       - name: Run Playwright tests
         # yamllint disable-line rule:line-length
-        run: pytest --browser webkit --numprocesses auto --template=html1/index.html --report=test-report/report_safari.html
+        run: pytest --browser webkit --numprocesses auto --stats-d --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com --stats-port 8125 --stats-prefix webkit --template=html1/index.html --report=test-report/report_firefox.html
       - uses: actions/upload-artifact@v3
         if: always()
         with:
