@@ -32,11 +32,11 @@ jobs:
           python-version: '3.10.4'
           cache: 'pip'
       - name: Install python dependencies
-        # yamllint disable-line rule:line-length
         run: pip install --upgrade --upgrade-strategy eager -r requirements.txt
       - name: Get Playwright version
-        # yamllint disable-line rule:line-length
-        run: echo "PLAYWRIGHT_VERSION=$(playwright --version)" | sed 's/ /-/g' >> $GITHUB_ENV
+        run: |
+          echo "PLAYWRIGHT_VERSION=$(playwright --version)" | sed 's/ /-/g' \
+          >> $GITHUB_ENV
       - name: Cache Playwright binaries
         uses: actions/cache@v3
         id: playwright-cache
@@ -49,8 +49,11 @@ jobs:
       - name: install msedge
         run: playwright install msedge
       - name: Run Playwright tests
-        # yamllint disable-line rule:line-length
-        run: pytest --browser-channel msedge --numprocesses auto --stats-d --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com --stats-port 8125 --stats-prefix msedge --template=html1/index.html --report=test-report/report_msedge.html
+        run: |
+          pytest --browser-channel msedge --numprocesses auto --stats-d \
+          --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com \
+          --stats-port 8125 --stats-prefix msedge --template=html1/index.html \
+          --report=test-report/report_msedge.html
       - uses: actions/upload-artifact@v3
         if: always()
         with:
@@ -71,7 +74,9 @@ jobs:
         run: pip install --upgrade --upgrade-strategy eager -r requirements.txt
       - name: Get Playwright version
         # yamllint disable-line rule:line-length
-        run: echo "PLAYWRIGHT_VERSION=$(playwright --version)" | sed 's/ /-/g' >> $GITHUB_ENV
+        run: |
+          echo "PLAYWRIGHT_VERSION=$(playwright --version)" | sed 's/ /-/g' \
+          >> $GITHUB_ENV
       - name: Cache Playwright binaries
         uses: actions/cache@v3
         id: playwright-cache
@@ -83,7 +88,11 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Run Playwright tests
         # yamllint disable-line rule:line-length
-        run: pytest --browser firefox --numprocesses auto --stats-d --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com --stats-port 8125 --stats-prefix firefox --template=html1/index.html --report=test-report/report_firefox.html
+        run: |
+          pytest --browser firefox --numprocesses auto --stats-d \
+          --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com \
+          --stats-port 8125 --stats-prefix firefox --template=html1/index.html \
+          --report=test-report/report_firefox.html
       - uses: actions/upload-artifact@v3
         if: always()
         with:
@@ -100,11 +109,11 @@ jobs:
           python-version: '3.10.4'
           cache: 'pip'
       - name: Install python dependencies
-        # yamllint disable-line rule:line-length
         run: pip install --upgrade --upgrade-strategy eager -r requirements.txt
       - name: Get Playwright version
-        # yamllint disable-line rule:line-length
-        run: echo "PLAYWRIGHT_VERSION=$(playwright --version)" | sed 's/ /-/g' >> $GITHUB_ENV
+        run: |
+          echo "PLAYWRIGHT_VERSION=$(playwright --version)" | sed 's/ /-/g' \
+          >> $GITHUB_ENV
       - name: Cache Playwright binaries
         uses: actions/cache@v3
         id: playwright-cache
@@ -115,8 +124,11 @@ jobs:
       - run: playwright install
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Run Playwright tests
-        # yamllint disable-line rule:line-length
-        run: pytest --browser chromium --numprocesses auto --stats-d --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com --stats-port 8125 --stats-prefix chromium --template=html1/index.html --report=test-report/report_chromium.html
+        run: |
+          pytest --browser chromium --numprocesses auto --stats-d \
+          --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com \
+          --stats-port 8125 --stats-prefix chromium --template=html1/index.html
+          --report=test-report/report_chromium.html
       - uses: actions/upload-artifact@v3
         if: always()
         with:
@@ -133,11 +145,11 @@ jobs:
           python-version: '3.10.4'
           cache: 'pip'
       - name: Install python dependencies
-        # yamllint disable-line rule:line-length
         run: pip install --upgrade --upgrade-strategy eager -r requirements.txt
       - name: Get Playwright version
-        # yamllint disable-line rule:line-length
-        run: echo "PLAYWRIGHT_VERSION=$(playwright --version)" | sed 's/ /-/g' >> $GITHUB_ENV
+        run: |
+          echo "PLAYWRIGHT_VERSION=$(playwright --version)" | sed 's/ /-/g' \
+          >> $GITHUB_ENV
       - name: Cache Playwright binaries
         uses: actions/cache@v3
         id: playwright-cache
@@ -151,8 +163,11 @@ jobs:
         # caching this will require docker image for webkit
         run: playwright install-deps
       - name: Run Playwright tests
-        # yamllint disable-line rule:line-length
-        run: pytest --browser webkit --numprocesses auto --stats-d --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com --stats-port 8125 --stats-prefix webkit --template=html1/index.html --report=test-report/report_firefox.html
+        run: |
+          pytest --browser webkit --numprocesses auto --stats-d \
+          --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com \
+          --stats-port 8125 --stats-prefix webkit --template=html1/index.html \
+          --report=test-report/report_firefox.html
       - uses: actions/upload-artifact@v3
         if: always()
         with:
