@@ -16,9 +16,12 @@ jobs:
           python-version: '3.10.4'
           cache: 'pip'
       - name: Install cloc
-        run: apt-get install -y cloc
+        run: sudo apt-get install -y cloc
       - name: Get lines of code counter
-        run: cloc_stats.sh
+        run: |
+          chmod 400 cloc_stats.sh
+          ./cloc_stats.sh
+
   linter:
     timeout-minutes: 30
     runs-on: ubuntu-latest
