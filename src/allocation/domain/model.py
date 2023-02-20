@@ -1,9 +1,7 @@
-# from the python architecture book
-
 from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date
-from typing import Optional, List
+from typing import Optional, List, Set
 
 
 class OutOfStock(Exception):
@@ -18,10 +16,19 @@ def allocate(line: OrderLine, batches: List[Batch]) -> str:
         batch.allocate(line)
         return batch.reference
     except StopIteration:
-        raise OutOfStock(f"Out of stock for sku {line.sku}")
+        raise OutOfStock(f'Out of stock for sku {line.sku}')
+
+class Product:
+    ''' dummy implementation, fixme'''
+
+    def __init__(self, *args, **kwargs):
+        self.batches = kwargs.get('batches')
+
+    def allocate(self, line):
+        return allocate(line,  self.batches)
 
 
-@dataclass(frozen=True)
+@dataclass(unsafe_hash=True)
 class OrderLine:
     orderid: str
     sku: str
@@ -36,29 +43,10 @@ class Batch:
         self.sku = sku
         self.eta = eta
         self._purchased_quantity = qty
-        self._allocations = set()
+        self._allocations = set()  # type: Set[OrderLine]
 
     def __repr__(self):
-        return f"<Batch {self.reference}>"
-
-    def allocate(self, line: OrderLine):
-        if self.can_allocate(line):
-            self._allocations.add(line)
-
-    def deallocate(self, line: OrderLine):
-        if line in self._allocations:
-            self._allocations.remove(line)
-
-    @property
-    def allocated_quantity(self) -> int:
-        return sum(line.qty for line in self._allocations)
-
-    @property
-    def available_quantity(self) -> int:
-        return self._purchased_quantity - self. allocated_quantity
-
-    def can_allocate(self, line: OrderLine) -> bool:
-        return self.sku == line.sku and self.available_quantity >= line.qty
+        return f'<Batch {self.reference}>'
 
     def __eq__(self, other):
         if not isinstance(other, Batch):
@@ -74,3 +62,22 @@ class Batch:
         if other.eta is None:
             return True
         return self.eta > other.eta
+
+    def allocate(self, line: OrderLine):
+        if self.can_allocate(line):
+            self._allocations.add(line)
+
+    def deallocate(self, line: OrderLine):
+        if line in self._allocations:
+            self._allocations.remove(line)
+
+    @property
+    def allocated_quantity(self) -> int:
+        return sum(line.qty for line in self._allocations)
+
+    @property
+    def available_quantity(self) -> int:
+        return self._purchased_quantity - self.allocated_quantity
+
+    def can_allocate(self, line: OrderLine) -> bool:
+        return self.sku == line.sku and self.available_quantity >= line.qty
