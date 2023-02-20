@@ -3,7 +3,7 @@
 SQLAlchemy<1.4.46
 flask
 psycopg2-binary
-
+flake8
 # tests
 pytest
 pytest-icdiff
