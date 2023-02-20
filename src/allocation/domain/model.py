@@ -1,7 +1,8 @@
 from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date
-from typing import Optional, List, Set
+from typing import Optional, List
+# , Set
 
 
 class OutOfStock(Exception):
@@ -18,6 +19,7 @@ def allocate(line: OrderLine, batches: List[Batch]) -> str:
     except StopIteration:
         raise OutOfStock(f'Out of stock for sku {line.sku}')
 
+
 class Product:
     ''' dummy implementation, fixme'''
 
@@ -25,7 +27,7 @@ class Product:
         self.batches = kwargs.get('batches')
 
     def allocate(self, line):
-        return allocate(line,  self.batches)
+        return allocate(line, self.batches)
 
 
 @dataclass(unsafe_hash=True)
