@@ -38,6 +38,17 @@ jobs:
         run: python -m flake8
       - name: YAML linter
         run: yamllint .
+  test-build:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.4'
+          cache: 'pip'
+      - name: Let us build
+        run: make all
   test-msedge:
     timeout-minutes: 30
     runs-on: ubuntu-latest
