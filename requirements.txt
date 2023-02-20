@@ -9,3 +9,4 @@ pytest
 pytest-icdiff
 mypy
 requests
+pytest-statsd==1.1.6
