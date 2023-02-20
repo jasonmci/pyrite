@@ -4,24 +4,22 @@ from allocation.service_layer import services, unit_of_work
 
 
 class FakeRepository(repository.AbstractRepository):
-
     def __init__(self, batches):
         self._batches = set(batches)
 
     def add(self, batch):
         self._batches.add(batch)
 
-    def get(self, sku):
-        return next((p for p in self._batches if p.sku == sku), None)
+    def get(self, reference):
+        return next(b for b in self._batches if b.reference == reference)
 
     def list(self):
         return list(self._batches)
 
 
 class FakeUnitOfWork(unit_of_work.AbstractUnitOfWork):
-
     def __init__(self):
-        self.products = FakeRepository([])
+        self.batches = FakeRepository([])
         self.committed = False
 
     def commit(self):
@@ -31,18 +29,11 @@ class FakeUnitOfWork(unit_of_work.AbstractUnitOfWork):
         pass
 
 
-def test_add_batch_for_new_product():
+def test_add_batch():
     uow = FakeUnitOfWork()
     services.add_batch("b1", "CRUNCHY-ARMCHAIR", 100, None, uow)
-    assert uow.products.get('CRUNCHY-ARMCHAIR') is not None
+    assert uow.batches.get("b1") is not None
     assert uow.committed
-
-
-def test_add_batch_for_existing_product():
-    uow = FakeUnitOfWork()
-    services.add_batch("b1", "GARISH-RUG", 100, None, uow)
-    services.add_batch("b2", "GARISH-RUG", 99, None, uow)
-    assert "b2" in [b.reference for b in uow.products.get("GARISH-RUG").batches]
 
 
 def test_allocate_returns_allocation():
