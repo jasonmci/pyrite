@@ -18,14 +18,16 @@ jobs:
           cache: 'pip'
       - name: Get cloc version
         run: echo "CLOC_VERSION=$(cloc --version)" >> $GITHUB_ENV
-      - name: Cache Playwright binaries
+      - name: Cache cloc binaries
         uses: actions/cache@v3
+        id: cloc-cache
         with:
           path: /var/cache/apt/archives
           key: cloc-package-ubuntu-latest
           restore-keys: cloc-package-${{ env.CLOC_VERSION }}
       - name: Install cloc
         run: sudo apt-get install -y cloc
+        if: steps.cloc-cache.outputs.cache-hit != 'true'
       - name: Get lines of code counter
         run: |
           chmod +x cloc_stats.sh
@@ -69,7 +71,6 @@ jobs:
   #         python-version: '3.10.4'
   #         cache: 'pip'
   #     - name: Install python dependencies
-  # yamllint disable-line rule:line-length
   #       run: pip install --upgrade --upgrade-strategy eager -r requirements.txt
   #     - name: Get Playwright version
   #       run: |
@@ -90,7 +91,6 @@ jobs:
   #       run: |
   #         pytest --browser-channel msedge --numprocesses auto --stats-d \
   #         --stats-host ec2-35-90-12-71.us-west-2.compute.amazonaws.com \
-  # yamllint disable-line rule:line-length
   #         --stats-port 8125 --stats-prefix msedge --template=html1/index.html \
   #         --report=test-report/report_msedge.html
   #     - uses: actions/upload-artifact@v3
